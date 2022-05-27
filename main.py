@@ -21,7 +21,9 @@ def main():
                                         MemberID integer PRIMARY KEY,
                                         firstName text NOT NULL,
                                         lastName text NOT NULL,
-                                        startDate text NOT NULL
+                                        startDate text NOT NULL,
+                                        email text NOT NULL,
+                                        password text NOT NULL
                                     ); """
 
     sql_create_memberExcercise_table = """CREATE TABLE IF NOT EXISTS memberExercise (
