@@ -11,27 +11,40 @@ def get_create_tables_query():
                             ); """
 
     memberExcercise_table = """CREATE TABLE IF NOT EXISTS memberExercise (
-                                    FOREIGN KEY (ExerciseID),
-                                    FOREIGN KEY (SetID),
-                                    FOREIGN KEY (MemberID),
+                                    ExerciseID integer NOT NULL,
+                                    SetID integer NOT NULL,
+                                    MemberID integer NOT NULL,
+                                    FOREIGN KEY (SetID)
+                                        REFERENCES Sets (SetID),
+                                    FOREIGN KEY (MemberID)
+                                        REFERENCES MemberID,
+                                    FOREIGN KEY (ExerciseID)
+                                        REFERENCES EXERCISE (exerciseID),
                                     PRIMARY KEY (ExerciseID, SetID, MemberID)
+                        
                                 );"""
 
-    set_table = """ CREATE TABLE IF NOT EXISTS set (
-                                set integer PRIMARY KEY,
-                                reps integer NOT NULL,
-                                success integer NOT NULL
-                            ); """
+    set_table = """ CREATE TABLE IF NOT EXISTS Sets (
+                        setID integer PRIMARY KEY,
+                        reps integer NOT NULL,
+                        success integer NOT NULL
+                        ); """
 
     exercise_table = """ CREATE TABLE IF NOT EXISTS Exercise (
                                 exerciseID integer PRIMARY KEY,
-                                FOREIGN KEY (muscleGroupID),
-                                exerciseName text NOT NULL
+                                muscleGroupID integer NOT NULL,
+                                exerciseName text NOT NULL,
+                                FOREIGN KEY (muscleGroupID)
+                                    REFERENCES MuscleGroup (MuscleGroupID)
                             ); """
 
     exerciseMuscleGroup_table = """ CREATE TABLE IF NOT EXISTS ExerciseMuscleGroup (
-                                FOREIGN KEY (ExerciseID),
+                                ExerciseID integer NOT NULL,
+                                muscleGroupID integer NOT NULL,
                                 FOREIGN KEY (muscleGroupID)
+                                    REFERENCES MuscleGroup (muscleGroupID),
+                                FOREIGN KEY (ExerciseID)
+                                    REFERENCES Exercise (ExerciseID)
                             ); """
 
     muscleGroup_table = """ CREATE TABLE IF NOT EXISTS MuscleGroup (
@@ -41,8 +54,10 @@ def get_create_tables_query():
 
     muscle_table = """ CREATE TABLE IF NOT EXISTS Muscle (
                                 muscleID integer PRIMARY KEY,
-                                FOREIGN KEY (muscleGroupID),
-                                muscleName text NOT NULL
+                                muscleGroupID integer NOT NULL,
+                                muscleName text NOT NULL,
+                                FOREIGN KEY (muscleGroupID)
+                                    REFERENCES MuscleGroup (muscleGroupID)
                             ); """
 
-    return member_table, memberExcercise_table, exercise_table, exerciseMuscleGroup_table, muscleGroup_table, muscle_table, set_table
+    return [member_table, set_table, muscleGroup_table, exercise_table, memberExcercise_table, muscle_table, exerciseMuscleGroup_table]

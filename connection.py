@@ -13,21 +13,23 @@ class Database:
         :return:
         """
         try:
-            c = self.conn.cursor()
+            c = self._conn.cursor()
             c.execute(table)
         except Error as e:
             print(e)
 
+    def print_schema(self):
+        cursor = self._conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        print(cursor.fetchall())
+
     def create_connection(self):
         """ create a database connection to a SQLite database """
         try:
-            conn = sqlite3.connect(self._path)
+            self._conn = sqlite3.connect(self._path)
             print(sqlite3.version)
         except Error as e:
             print(e)
-        finally:
-            if self._conn:
-                self._conn.close()
 
     def close(self):
         self._conn.close()
