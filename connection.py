@@ -7,6 +7,25 @@ class Database:
         self._path = r"\sqlite\db\pythonsqlite.db"
         self._conn = None
 
+    def member_validation(self, user):
+        """ Checks if a member's login details are accurate
+        :param user: a SELECT statement
+        :return:
+        """
+        try:
+            c = self._conn.cursor()
+            c.execute(user)
+            rows = c.fetchall()
+            if len(rows) == 0:
+                return False
+            else:
+                return True
+        except Error as e:
+            print(e)
+            return False
+
+
+
     def create_table(self, table):
         """ create a table from the create_table_sql statement
         :param table: a CREATE TABLE statement
