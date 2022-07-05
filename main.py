@@ -43,7 +43,6 @@ def signup(db):
     query = f"INSERT INTO member (MemberID,firstName, lastName,startDate,email, password)" \
             f"VALUES ({hash(email)}, {first_name}, {last_name}, {start_date}, {email}, {password})"
 
-    
 
     return
 
